@@ -1,0 +1,32 @@
+'use server'
+
+import  axios from 'axios'
+
+interface AccessTokenResponse {
+    access_token : string;
+    expires_in: number;
+    token_type:string;
+}
+
+export async function createAccessToken():Promise<string> {
+    try{
+        const response = await axios.post<AccessTokenResponse>(
+            `${process.env.AUTH0_DOMAIN}/oauth/token`,
+
+            new URLSearchParams({
+                grant_type: 'client_credentials)',
+                client_Id:process.env.AUTH0_CLIENT_ID!,
+                client_secret:process.env.AUTH0_CLIENT_SECRET!,
+                audience:`${process.env.AUTH0_DOMAIN}/api/v2/`,
+            }),
+            {
+                headers:{
+                    'content-types': 'application/x-www-form-urlencoded'
+                },
+            }
+        );
+        return response.data.access_token;
+    }catch(error){
+        throw new Error ('failed to get auth management token')
+    }
+}
