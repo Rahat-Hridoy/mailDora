@@ -33,10 +33,10 @@
 // }
 
 import Link from "next/link";
-import { getSession } from "@auth0/nextjs-auth0";
+import { auth0 } from "@/lib/auth0";
 
 export default async function Home() {
-  const session = await getSession();
+  const session = await auth0.getSession();
   const user = session?.user;
 
   return (

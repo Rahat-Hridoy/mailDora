@@ -21,7 +21,7 @@ export async function createAccessToken():Promise<string> {
             }),
             {
                 headers:{
-                    'content-types': 'application/x-www-form-urlencoded'
+                    'content-type': 'application/x-www-form-urlencoded'
                 },
             }
         );
