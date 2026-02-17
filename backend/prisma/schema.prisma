@@ -9,9 +9,16 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  subject   String
   email     String   @unique
-  message   String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  subject   String
+  message   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

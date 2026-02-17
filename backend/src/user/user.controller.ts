@@ -7,6 +7,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
     constructor(private readonly userService:UserService){}
 
+    @Post()
+    create(@Body() dto: CreateUserDto){
+        return this.userService.create(dto)
+    }
+
     @Post('send-campaign')
   sendCampaign(@Body() body: any) {
     return this.userService.sendCampaign(

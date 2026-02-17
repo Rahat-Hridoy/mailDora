@@ -5,8 +5,6 @@ export class CreateUserDto{
     email:string
 
     @IsString()
-    subject:string
+    name:string
 
-    @IsString()
-    message:string
 }
