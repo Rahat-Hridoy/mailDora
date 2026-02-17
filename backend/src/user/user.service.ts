@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma:PrismaService){}
+    constructor(private prisma:PrismaService, private readonly emailService:EmailService){}
 
     //create 
     async create(data: CreateUserDto){
@@ -17,7 +18,6 @@ export class UserService {
         return this.prisma.user.findMany();
     }
 
-    // Find one
     // Find one
     async findOne(id: number) {
         const user = await this.prisma.user.findUnique({ where: { id } });
@@ -36,6 +36,22 @@ export class UserService {
         await this.findOne(id);
         return this.prisma.user.delete({ where: { id } });
     }
+
+     // Brevo email campaign sending
+  async sendCampaign(subject: string, message: string) {
+    const users = await this.prisma.user.findMany();
+
+
+    for (const user of users) {
+      await this.emailService.sendEmail(
+        user.email,
+        'User',
+        subject,
+        `<p>${message}</p>`,
+      );
+    }
+    return { success: true };
+  }
 
 
 
