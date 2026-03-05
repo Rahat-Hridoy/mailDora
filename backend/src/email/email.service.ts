@@ -12,13 +12,20 @@ export class EmailService {
     this.client.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY as string);
   }
 
-  async sendEmail(to: string, name: string, subject: string, html: string) {
+  async getEmails(batchSize: number, offset: number): Promise<string[]> {
+    // TODO: Implement actual email fetching logic
+    return [];
+  }
+
+  async sendEmail(emails: string[], subject: string, message: string) {
     const sendSmtpEmail = new Brevo.SendSmtpEmail();
+    console.log(emails);
 
     sendSmtpEmail.sender = { name: 'MailDora', email: 'rahathridoyd2x@gmail.com' };
-    sendSmtpEmail.to = [{ email: to, name }];
+    sendSmtpEmail.to = emails.map((email: string) => ({ email }));
     sendSmtpEmail.subject = subject;
-    sendSmtpEmail.htmlContent = html;
+    sendSmtpEmail.textContent = message;
+
 
     const result = await this.client.sendTransacEmail(sendSmtpEmail);
     return result;

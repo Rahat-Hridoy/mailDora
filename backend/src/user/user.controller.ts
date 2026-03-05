@@ -15,6 +15,7 @@ export class UserController {
     @Post('send-campaign')
   sendCampaign(@Body() body: any) {
     return this.userService.sendCampaign(
+      body.email,
       body.subject, 
       body.message
     );

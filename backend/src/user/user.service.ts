@@ -38,18 +38,14 @@ export class UserService {
     }
 
      // Brevo email campaign sending
-  async sendCampaign(subject: string, message: string) {
-    const users = await this.prisma.user.findMany();
-
-
-    for (const user of users) {
+  async sendCampaign(emails:string[], subject: string, message: string) {
+    
       await this.emailService.sendEmail(
-        user.email,
-        'User',
+        emails,
         subject,
-        `<p>${message}</p>`,
+        message,
       );
-    }
+   
     return { success: true };
   }
 
